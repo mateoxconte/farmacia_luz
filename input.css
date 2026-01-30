@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Titulos';
+  src: url('../FARMACIA_TUP/assets/fonts/PlayfairDisplay-Regular.ttf') format('truetype');
+}
+
+
+
+@theme {
+  /* Colores */
+  --color-primary: #0033cc;
+  --color-secondary: #0066ff;
+
+  /* Tipografía */
+  --font-family-base: 'Titulos';
+}
+
+
+.styles_li {
+  @apply font-semibold text-white font-family-base transition-all duration-300 
+         hover:text-[#19e6f7] flex justify-start gap-3 items-center;
+}
+
+.li_titulos{
+  @apply text-[20px] font-semibold text-[#12b1be] font-family-base transition-colors duration-300  text-shadow-md text-shadow-gray-800; ;
+}
+
+.li_volver {
+  @apply text-[14px] text-blue-300 font-medium font-family-base flex items-center gap-2 
+         transition-all duration-300 hover:text-[#19e6f7] hover:underline hover:underline-offset-4;
+}
+
+.li_contacto {
+  @apply text-sm text-gray-200 font-medium flex items-center gap-2  
+         hover:text-[#19e6f7] transition-all duration-300 font-mono;
+}
+
+.li_contacto img {
+  @apply w-4 h-4 opacity-80 hover:opacity-100 transition-all duration-300;
+}
+
+.btn_moderno {
+    @apply px-5 py-2 rounded-full cursor-pointer border-0 bg-blue-950 text-white font-family-base;
+}

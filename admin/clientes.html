@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administrar Clientes - Farmacia Luz</title>
+  <link rel="stylesheet" href="../assets/output.css" />
+  <script src="../assets/js/api.js"></script>
+</head>
+
+<body class="bg-gradient-to-br from-[#e8f5f9] to-[#d0ecf3] flex min-h-screen font-sans text-gray-800">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-[#275c74] text-white flex flex-col justify-between shadow-2xl rounded-r-3xl">
+    <div>
+      <div class="p-6 border-b border-white/20">
+        <h2 class="text-3xl font-extrabold text-center tracking-wide">Admin Luz</h2>
+      </div>
+      <nav class="flex flex-col gap-3 p-5 text-lg">
+        <a href="index.html" class="py-2.5 px-4 rounded-xl hover:bg-[#12b1be] transition flex items-center gap-2">🏠 <span>Dashboard</span></a>
+        <a href="productos.html" class="py-2.5 px-4 rounded-xl hover:bg-[#12b1be] transition flex items-center gap-2">🧴 <span>Productos</span></a>
+        <a href="clientes.html" class="py-2.5 px-4 bg-[#12b1be] rounded-xl font-semibold flex items-center gap-2 shadow-md">👥 <span>Clientes</span></a>
+        <a href="ventas.html" class="py-2.5 px-4 rounded-xl hover:bg-[#12b1be] transition flex items-center gap-2">🧾 <span>Ventas</span></a>
+      </nav>
+    </div>
+    <div class="p-5 text-center border-t border-white/20 text-sm opacity-80">
+      © 2025 Farmacia Luz
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-1 p-10">
+
+    <div class="flex justify-between items-center mb-10">
+      <h1 class="text-4xl font-extrabold text-[#275c74] drop-shadow">Gestión de Clientes</h1>
+
+      <div class="flex gap-4">
+        <button id="btnCompraGrande" class="bg-[#12b1be] hover:bg-[#0e9ca9] text-white px-5 py-2.5 rounded-xl transition shadow-md font-semibold">
+          🏆 Mayor compra
+        </button>
+
+        <button id="btnMasCompro" class="bg-[#12b1be] hover:bg-[#0e9ca9] text-white px-5 py-2.5 rounded-xl transition shadow-md font-semibold">
+          🥇 Cliente que más compró
+        </button>
+
+        <button id="btnCredito" class="bg-[#275c74] hover:bg-[#1f4d60] text-white px-5 py-2.5 rounded-xl transition shadow-md font-semibold">
+          💳 Solo tarjeta crédito
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="overflow-x-auto bg-white rounded-2xl shadow-xl border border-gray-200">
+      <table class="min-w-full text-sm text-left">
+        <thead class="bg-[#275c74] text-white text-base">
+          <tr>
+            <th class="p-4">ID</th>
+            <th class="p-4">Nombre</th>
+            <th class="p-4">Apellido</th>
+            <th class="p-4">Email</th>
+            <th class="p-4">ID Dirección</th>
+          </tr>
+        </thead>
+        <tbody id="tablaClientes" class="divide-y divide-gray-200"></tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <!-- SCRIPT JS -->
+  <script>
+    const tabla = document.getElementById("tablaClientes");
+
+    function renderFila(c) {
+      return `
+        <tr class='hover:bg-gray-50 transition'>
+          <td class="p-4 font-semibold">${c.idCliente}</td>
+          <td class="p-4">${c.nombre}</td>
+          <td class="p-4">${c.apellido}</td>
+          <td class="p-4">${c.email}</td>
+          <td class="p-4">${c.idDireccion}</td>
+        </tr>`;
+    }
+
+    function renderTabla(data) {
+      tabla.innerHTML = data.map(renderFila).join("");
+    }
+
+    async function cargarClientes() {
+      const datos = await apiGet("Clientes");
+      renderTabla(datos);
+    }
+
+    document.getElementById("btnCompraGrande").onclick = async () => {
+      const datos = await apiGet("Clientes/CompraMasGrande");
+      renderTabla([datos]);
+    };
+
+    document.getElementById("btnMasCompro").onclick = async () => {
+      const datos = await apiGet("Clientes/ClienteQueMasCompro");
+      renderTabla([datos]);
+    };
+
+    document.getElementById("btnCredito").onclick = async () => {
+      const datos = await apiGet("Clientes/ClientesCredito");
+      renderTabla(datos);
+    };
+
+    cargarClientes();
+  </script>
+
+</body>
+</html>
